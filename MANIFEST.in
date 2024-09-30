@@ -1,0 +1,17 @@
+# Remove all data/tests/other files
+prune data/
+prune tests/
+prune dist/
+prune build/
+prune *.egg-info
+exclude .gitignore
+exclude *.pyc
+exclude CODEOWNERS
+
+# Include all tests
+recursive-include src *
+
+# Include all supplemental files
+include MANIFEST.in
+include setup.py
+include README.md
