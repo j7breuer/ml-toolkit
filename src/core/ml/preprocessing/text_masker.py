@@ -1,5 +1,6 @@
 
 import re
+from src.config.settings import RegexPatterns
 
 class TextMasker:
     '''
@@ -13,7 +14,7 @@ class TextMasker:
             output:
         '''
         # Mask email addresses
-        return ''
+        return re.sub(RegexPatterns.EMAIL, replacement_value, text)
 
 
     @staticmethod
@@ -24,7 +25,8 @@ class TextMasker:
             output:
         '''
         # Mask phone numbers
-        return ''
+        return re.sub(RegexPatterns.PHONE, replacement_value, text)
+
     
 
     @staticmethod
@@ -35,7 +37,7 @@ class TextMasker:
             output:
         '''
         # Mask URLs
-        return ''
+        return re.sub(RegexPatterns.URL, replacement_value, text)
     
 
     @staticmethod
@@ -46,4 +48,4 @@ class TextMasker:
             output:
         '''
         # Mask custom patterns
-        return ''
+        return re.sub(pattern, replacement_mask, text)

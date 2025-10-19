@@ -6,12 +6,7 @@ import nltk
 import regex
 from nltk.corpus import stopwords
 from bs4 import BeautifulSoup
-
-# Define url pattern
-URL_PATTERN = re.compile(
-    r'\b(?:https?://|www\.)[\w.-]+\.[a-zA-Z]{2,}(?:[/?#]\S*)?'
-    r'|\b[\w.-]+\.[a-zA-Z]{2,}(?:[/?#]\S*)?'
-)
+from src.config.settings import RegexPatterns
 
 class TextCleaner:
     def __init__(self, language = 'english'):
@@ -96,7 +91,7 @@ class TextCleaner:
             output:
         '''        
         # Return
-        return re.sub(URL_PATTERN, '', text, flags=re.IGNORECASE)
+        return re.sub(RegexPatterns.URL, '', text)
     
 
     @staticmethod
