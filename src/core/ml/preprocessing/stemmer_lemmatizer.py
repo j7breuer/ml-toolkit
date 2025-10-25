@@ -1,4 +1,9 @@
 
+import nltk
+from nltk.corpus import wordnet
+from nltk.stem import PorterStemmer, WordNetLemmatizer
+import spacy
+from spacy.tokens import Doc
 
 class StemLemma:
     '''
@@ -8,22 +13,21 @@ class StemLemma:
         self.engine = engine
         self.language = language
         if engine == 'nltk':
-            import nltk
-            from nltk.corpus import wordnet
-            from nltk.stem import PorterStemmer, WordNetLemmatizer
             self.stemmer = PorterStemmer()
             self.lemmatizer = WordNetLemmatizer()
         elif engine == 'spacy':
-            import spacy
-            from spacy.tokens import Doc
             self.nlp = spacy.load(language)
 
 
     def stem(self, text: list[str], join: bool = True) -> str | list[str]:
         '''
             desc:
+                Given a list of tokenized text, stem each token
             input:
+                text [list[str]]: list of tokenized text
+                join [bool]: whether to join the list into a single string
             output:
+                stems [str | list[str]]: stemmed text as a string or list
         '''
         # Get stems
         stems = [self.stemmer.stem(token) for token in text]
@@ -38,8 +42,12 @@ class StemLemma:
     def get_wordnet_pos(self, word: str) -> str:
         '''
             desc:
+                Helper function to map pos tag to the wordnet format
+                from nltk for lemmatization
             inpt:
+                word [str]: word to get pos tag for
             oupt:
+                [str]: wordnet pos tag
         '''
         # Get tag
         tag = nltk.pos_tag([word])[0][1][0].upper()
@@ -59,8 +67,12 @@ class StemLemma:
     def lemmatize(self, text: list[str] | str, join: bool = True) -> str | list[str]:
         '''
             desc:
+                Given a list of tokenized text, lemmatize each token
             input:
+                text [list[str] | str]: list of tokenized text or a single string
+                join [bool]: whether to join the list into a single string
             output:
+                lemmas [str | list[str]]: lemmatized text as a string or list
         '''
         if self.engine == 'nltk':
             # Get all lemmatized tokens
