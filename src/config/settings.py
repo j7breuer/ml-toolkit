@@ -15,3 +15,23 @@ class RegexPatterns:
         r'|\b[\w.-]+\.[a-zA-Z]{2,}(?:[/?#]\S*)?',
         flags = re.IGNORECASE
     )
+
+
+class NltkSettings:
+    DEFAULT_INSTALL_PATHS = [
+        'corpora',
+        'taggers',
+        'tokenizers',
+        'chunkers',
+        'help',
+        'models'
+    ]
+
+
+class SpacySettings:
+    DEFAULT_MODELS = {
+        'en': 'en_core_web_sm',
+        'de': 'de_core_news_sm',
+        'fr': 'fr_core_news_sm',
+        'es': 'es_core_news_sm'
+    }
