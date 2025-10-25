@@ -15,6 +15,10 @@ class RegexPatterns:
         r'|\b[\w.-]+\.[a-zA-Z]{2,}(?:[/?#]\S*)?',
         flags = re.IGNORECASE
     )
+    FINANCIAL_STRINGS = re.compile(
+        r"[-+()]?\s*\$?\s*[\d,]*\.?\d+%?", 
+        flags = re.IGNORECASE
+    )
 
 
 class NltkSettings:

@@ -9,28 +9,37 @@ from bs4 import BeautifulSoup
 from src.config.settings import RegexPatterns
 
 class TextCleaner:
+    '''
+        desc: Class for cleaning text values
+    '''
     def __init__(self, language = 'english'):
         nltk.download('stopwords')
         self.language = language
         self.stop_words = set(stopwords.words(language))
         
     @staticmethod
-    def convert_case(text: str) -> str:
+    def clean_financial_strings(text: str) -> str:
         '''
             desc:
+                Given a string financial value, clean text values 
             input:
+                text [str]: Value to clean
             output:
-        '''
+                [str]: financial strings removed
+        '''        
         # Return
-        return text.lower()
+        return re.sub(RegexPatterns.FINANCIAL_STRINGS, '', text)
     
     
     @staticmethod
     def remove_punctuation(text: str) -> str:
         '''
             desc:
+                Function specific to removing punctuation only
             input:
+                text [str]: Value to clean
             output:
+                cleaned_text [str]: Cleaned value
         '''        
         # Revmove unicode
         cleaned_text = regex.sub(r'\p{P}+', '', cleaned_text)
@@ -43,8 +52,11 @@ class TextCleaner:
     def remove_special_characters(text: str) -> str:
         '''
             desc:
+                Function specific to removing special characters
             input:
+                text [str]: Value to clean
             output:
+                [str]: Cleaned values
         '''
         # Return
         return re.sub(r'[^a-zA-Z0-9\s]', '', text)
@@ -54,8 +66,11 @@ class TextCleaner:
     def remove_emojis(text: str) -> str:
         '''
             desc:
+                Function specific to removing emojis characters
             input:
+                text [str]: Value to clean
             output:
+                [str]: Cleaned values
         '''
         # Return
         return emoji.replace_emoji(text, replace = '')
@@ -65,8 +80,11 @@ class TextCleaner:
     def normalize_whitespace(text: str) -> str:
         '''
             desc:
+                Functino for normalizing all whitespace into one space
             input:
+                text [str]: Value to clean
             output:
+                [str]: Cleaned values
         '''
         # Return
         return re.sub(r'\s+', ' ', text).strip()
@@ -76,8 +94,13 @@ class TextCleaner:
     def replace_regex_pattern(text: str, pattern: str, replacement_value: str = '') -> str:
         '''
             desc:
+                Given a custom regex pattern, replace it with input value
             input:
+                text [str]: string to clean
+                pattern [str]: regex pattern to apply
+                replacement value [str]: default to empty string, value to replace with
             output:
+                [str]: String with replaced value
         '''
         # Return
         return re.sub(pattern, replacement_value, text)
@@ -87,8 +110,11 @@ class TextCleaner:
     def remove_urls(text: str) -> str:
         '''
             desc:
+                Given a text value, use regex url pattern to remove all
             input:
+                text [str]: text value to search and remove urls
             output:
+                [str]: Cleaned str
         '''        
         # Return
         return re.sub(RegexPatterns.URL, '', text)
@@ -98,8 +124,11 @@ class TextCleaner:
     def remove_html_css(text: str) -> str:
         '''
             desc:
+                Remove html and css from text
             input:
+                text [str]: Text value to remove html/css from
             output:
+                cleaned_text [str]: Cleaned string
         '''
         # Apply html parser
         soup = BeautifulSoup(text, "html.parser")
@@ -119,8 +148,11 @@ class TextCleaner:
     def remove_stopwords(self, text: str) -> str:
         '''
             desc:
+                Given a string, remove stopwords based on language/model
             input:
+                text [str]: String to remove stop words
             output:
+                [str]: Cleaned string joined back
         '''        
         # Tokenize text
         tokens = text.lower().split()
