@@ -1,5 +1,6 @@
 import pandas as pd
-
+from sklearn.impute import KNNImputer
+from sklearn.linear_model import LinearRegression
 
 class ValueFiller:
     '''
@@ -75,8 +76,22 @@ class ValueFiller:
         return df
 
     @staticmethod
-    def KNN_imputation(df: pd.DataFrame, n_neighbors: int) -> pd.DataFrame:
-        pass
+    def KNN_imputation(df: pd.DataFrame, n_neighbors: int = 2, columns: list[str] = None) -> pd.DataFrame:
+        '''
+            desc: 
+                Replace missing values using K-Nearest Neighbors imputation
+            inpt:
+                df [pd.DataFrame]: DataFrame with missing values
+                n_neighbors [int]: Number of neighboring samples to use for imputation
+                columns [list[str]]: List of columns to apply imputation
+            oupt:
+                df [pd.DataFrame]: DataFrame with missing values filled
+        '''
+        if columns is None:
+            columns = df.columns
+        imputer = KNNImputer(n_neighbors=n_neighbors) # create imputer object
+        df[columns] = imputer.fit_transform(df[columns]) # using that object, fit and apply the changes to the columns
+        return df
 
     @staticmethod
     def regression_imputation(df: pd.DataFrame, target_column: str) -> pd.DataFrame:
