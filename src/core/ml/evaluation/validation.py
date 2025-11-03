@@ -48,21 +48,7 @@ class ModelValidator:
 
     @staticmethod
     def leave_one_out_validation(model, X: pd.DataFrame, y: pd.Series) -> float:
-        '''
-            desc:
-                Perform Leave-One-Out Cross-Validation (LOOCV)
-                Each sample is used once as a test set, and the remaining n-1 samples are used for training
-                Note: Computationally expensive for large datasets
-            input:
-                model: Machine learning model to evaluate
-                X [pd.DataFrame]: Features
-                y [pd.Series]: Target
-            output:
-                float: Average cross-validation score
-        '''
-        loo = LeaveOneOut()
-        scores = cross_val_score(model, X, y, cv=loo)
-        return scores.mean()
+        pass
 
 
     @staticmethod
