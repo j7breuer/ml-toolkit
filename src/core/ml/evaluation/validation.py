@@ -1,4 +1,5 @@
 import pandas as pd
+from sklearn import clone
 from sklearn.model_selection import KFold, LeaveOneOut, RepeatedKFold, StratifiedKFold, cross_val_score
 
 class ModelValidator:
@@ -48,7 +49,20 @@ class ModelValidator:
 
     @staticmethod
     def leave_one_out_validation(model, X: pd.DataFrame, y: pd.Series) -> float:
-        pass
+        '''
+        desc:
+            Perform Leave-One-Out Cross-Validation (LOOCV).
+            Each sample is used once as the validation set.
+        input:
+            model: Machine learning model to evaluate
+            X [pd.DataFrame]: Features
+            y [pd.Series]: Target
+        output:
+            float: Average validation score
+        '''
+        loo = LeaveOneOut()
+        scores = cross_val_score(model, X, y, cv=loo)
+        return scores.mean()
 
 
     @staticmethod
