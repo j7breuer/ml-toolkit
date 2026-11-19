@@ -11,11 +11,11 @@ class ValueFiller:
         '''
             desc: 
                 Add flag columns indicating where imputations were made
-            inpt:
+            input:
                 df [pd.DataFrame]: DataFrame with missing values
                 columns [list[str]]: List of columns to add flags for
                 mask [pd.DataFrame]: Boolean DataFrame indicating where imputations were made
-            oupt:
+            output:
                 df [pd.DataFrame]: DataFrame with added flag columns
         '''
         for col in columns:
@@ -28,11 +28,11 @@ class ValueFiller:
         '''
             desc: 
                 Add flag columns indicating where imputations were made
-            inpt:
+            input:
                 df [pd.DataFrame]: DataFrame with missing values
                 columns [list[str]]: List of columns to add flags for
                 mask [pd.DataFrame]: Boolean DataFrame indicating where imputations were made
-            oupt:
+            output:
                 df [pd.DataFrame]: DataFrame with added flag columns
         '''
         flag_col = f"{column}_imputed"
@@ -44,12 +44,12 @@ class ValueFiller:
         '''
             desc: 
                 Replace missing values with a constant value
-            inpt:
+            input:
                 df [pd.DataFrame]: DataFrame with missing values
                 value [int]: Constant value to replace missing values
                 columns [list[str]]: List of columns to apply imputation
                 flag_imputations [bool]: Whether to add flags for imputed values
-            oupt:
+            output:
                 df [pd.DataFrame]: DataFrame with missing values filled
         '''
         mask = df[columns].isna() if flag_imputations else None
@@ -66,11 +66,11 @@ class ValueFiller:
         '''
             desc: 
                 Replace missing values with the mean of the column
-            inpt:
+            input:
                 df [pd.DataFrame]: DataFrame with missing values
                 columns [list[str]]: List of columns to apply imputation
                 flag_imputations [bool]: Whether to add flags for imputed values
-            oupt:
+            output:
                 df [pd.DataFrame]: DataFrame with missing values filled
         '''
         mask = df[columns].isna() if flag_imputations else None
@@ -87,11 +87,11 @@ class ValueFiller:
         '''
             desc: 
                 Replace missing values with the median of the column
-            inpt:
+            input:
                 df [pd.DataFrame]: DataFrame with missing values
                 columns [list[str]]: List of columns to apply imputation
                 flag_imputations [bool]: Whether to add flags for imputed values
-            oupt:
+            output:
                 df [pd.DataFrame]: DataFrame with missing values filled
         '''
         mask = df[columns].isna() if flag_imputations else None
@@ -108,11 +108,11 @@ class ValueFiller:
         '''
             desc: 
                 Replace missing values with the mode of the column
-            inpt:
+            input:
                 df [pd.DataFrame]: DataFrame with missing values
                 columns [list[str]]: List of columns to apply imputation
                 flag_imputations [bool]: Whether to add flags for imputed values
-            oupt:
+            output:
                 df [pd.DataFrame]: DataFrame with missing values filled
         '''
         if columns is None:
@@ -126,12 +126,12 @@ class ValueFiller:
         '''
             desc: 
                 Replace missing values using K-Nearest Neighbors imputation
-            inpt:
+            input:
                 df [pd.DataFrame]: DataFrame with missing values
                 n_neighbors [int]: Number of neighboring samples to use for imputation
                 columns [list[str]]: List of columns to apply imputation
                 flag_imputations [bool]: Whether to add flags for imputed values
-            oupt:
+            output:
                 df [pd.DataFrame]: DataFrame with missing values filled
         '''
         mask = df[columns].isna() if flag_imputations else None
@@ -148,12 +148,12 @@ class ValueFiller:
         '''
             desc: 
                 Replace missing values using regression imputation
-            inpt:
+            input:
                 df [pd.DataFrame]: DataFrame with missing values
                 target_column [str]: Column to apply imputation
                 predictor_columns [list[str]]: Columns to use as predictors
                 flag_imputations [bool]: Whether to add flags for imputed values
-            oupt:
+            output:
                 df [pd.DataFrame]: DataFrame with missing values filled
         '''
         mask = df[target_column].isna() if flag_imputations else None
