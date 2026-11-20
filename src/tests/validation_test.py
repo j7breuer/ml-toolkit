@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import pytest
 
-from core.ml.evaluation.validation import ModelValidator
+from core.ml.evaluation.validation import Validations
 
 from sklearn.linear_model import LinearRegression, LogisticRegression, Ridge
 from sklearn.tree import DecisionTreeRegressor
@@ -48,21 +48,21 @@ y_class = pd.Series([0] * 20 + [1] * 20)
 def test_k_fold_validation_default_scoring():
     model = LinearRegression()
     expected = cross_val_score(model, X_reg, y_reg, cv=KFold(n_splits=5, shuffle=True, random_state=111)).mean()
-    actual = ModelValidator.k_fold_validation(model, X_reg, y_reg)
+    actual = Validations.k_fold_validation(model, X_reg, y_reg)
     assert actual == pytest.approx(expected)
 
 
 def test_k_fold_validation_custom_scoring():
     model = LinearRegression()
     expected = cross_val_score(model, X_reg, y_reg, cv=KFold(n_splits=5, shuffle=True, random_state=111), scoring="neg_mean_squared_error").mean()
-    actual = ModelValidator.k_fold_validation(model, X_reg, y_reg, scoring="neg_mean_squared_error")
+    actual = Validations.k_fold_validation(model, X_reg, y_reg, scoring="neg_mean_squared_error")
     assert actual == pytest.approx(expected)
 
 
 def test_k_fold_validation_custom_splits():
     model = LinearRegression()
     expected = cross_val_score(model, X_reg, y_reg, cv=KFold(n_splits=3, shuffle=True, random_state=111)).mean()
-    actual = ModelValidator.k_fold_validation(model, X_reg, y_reg, n_splits=3)
+    actual = Validations.k_fold_validation(model, X_reg, y_reg, n_splits=3)
     assert actual == pytest.approx(expected)
 
 
@@ -73,21 +73,21 @@ def test_k_fold_validation_custom_splits():
 def test_stratified_k_fold_validation_default_scoring():
     model = LogisticRegression()
     expected = cross_val_score(model, X_class, y_class, cv=StratifiedKFold(n_splits=5, shuffle=True, random_state=111)).mean()
-    actual = ModelValidator.stratified_k_fold_validation(model, X_class, y_class)
+    actual = Validations.stratified_k_fold_validation(model, X_class, y_class)
     assert actual == pytest.approx(expected)
 
 
 def test_stratified_k_fold_validation_custom_scoring():
     model = LogisticRegression()
     expected = cross_val_score(model, X_class, y_class, cv=StratifiedKFold(n_splits=5, shuffle=True, random_state=111), scoring="f1").mean()
-    actual = ModelValidator.stratified_k_fold_validation(model, X_class, y_class, scoring="f1")
+    actual = Validations.stratified_k_fold_validation(model, X_class, y_class, scoring="f1")
     assert actual == pytest.approx(expected)
 
 
 def test_stratified_k_fold_validation_custom_splits():
     model = LogisticRegression()
     expected = cross_val_score(model, X_class, y_class, cv=StratifiedKFold(n_splits=4, shuffle=True, random_state=111)).mean()
-    actual = ModelValidator.stratified_k_fold_validation(model, X_class, y_class, n_splits=4)
+    actual = Validations.stratified_k_fold_validation(model, X_class, y_class, n_splits=4)
     assert actual == pytest.approx(expected)
 
 
@@ -98,7 +98,7 @@ def test_stratified_k_fold_validation_custom_splits():
 def test_leave_one_out_validation_custom_scoring():
     model = LinearRegression()
     expected = cross_val_score(model, X_reg, y_reg, cv=LeaveOneOut(), scoring="neg_mean_absolute_error").mean()
-    actual = ModelValidator.leave_one_out_validation(model, X_reg, y_reg, scoring="neg_mean_absolute_error")
+    actual = Validations.leave_one_out_validation(model, X_reg, y_reg, scoring="neg_mean_absolute_error")
     assert actual == pytest.approx(expected)
 
 
@@ -109,21 +109,21 @@ def test_leave_one_out_validation_custom_scoring():
 def test_repeated_k_fold_validation_default_scoring():
     model = LinearRegression()
     expected = cross_val_score(model, X_reg, y_reg, cv=RepeatedKFold(n_splits=5, n_repeats=3, random_state=111)).mean()
-    actual = ModelValidator.repeated_k_fold_validation(model, X_reg, y_reg)
+    actual = Validations.repeated_k_fold_validation(model, X_reg, y_reg)
     assert actual == pytest.approx(expected)
 
 
 def test_repeated_k_fold_validation_custom_scoring():
     model = LinearRegression()
     expected = cross_val_score(model, X_reg, y_reg, cv=RepeatedKFold(n_splits=5, n_repeats=3, random_state=111), scoring="neg_mean_squared_error").mean()
-    actual = ModelValidator.repeated_k_fold_validation(model, X_reg, y_reg, scoring="neg_mean_squared_error")
+    actual = Validations.repeated_k_fold_validation(model, X_reg, y_reg, scoring="neg_mean_squared_error")
     assert actual == pytest.approx(expected)
 
 
 def test_repeated_k_fold_validation_custom_splits_and_repeats():
     model = LinearRegression()
     expected = cross_val_score(model, X_reg, y_reg, cv=RepeatedKFold(n_splits=3, n_repeats=2, random_state=111)).mean()
-    actual = ModelValidator.repeated_k_fold_validation(model, X_reg, y_reg, n_splits=3, n_repeats=2)
+    actual = Validations.repeated_k_fold_validation(model, X_reg, y_reg, n_splits=3, n_repeats=2)
     assert actual == pytest.approx(expected)
 
 
@@ -146,7 +146,7 @@ def test_nested_cross_validation_default_scoring():
         expected_scores.append(grid_search.best_estimator_.score(X_test, y_test))
 
     expected = np.mean(expected_scores)
-    actual = ModelValidator.nested_cross_validation(model, X_reg, y_reg, param_grid)
+    actual = Validations.nested_cross_validation(model, X_reg, y_reg, param_grid)
     assert actual == pytest.approx(expected)
 
 
@@ -165,7 +165,7 @@ def test_nested_cross_validation_custom_scoring():
         expected_scores.append(get_scorer("neg_mean_squared_error")(grid_search.best_estimator_, X_test, y_test))
 
     expected = np.mean(expected_scores)
-    actual = ModelValidator.nested_cross_validation(model, X_reg, y_reg, param_grid, scoring="neg_mean_squared_error")
+    actual = Validations.nested_cross_validation(model, X_reg, y_reg, param_grid, scoring="neg_mean_squared_error")
     assert actual == pytest.approx(expected)
 
 
@@ -184,7 +184,7 @@ def test_nested_cross_validation_custom_splits():
         expected_scores.append(grid_search.best_estimator_.score(X_test, y_test))
 
     expected = np.mean(expected_scores)
-    actual = ModelValidator.nested_cross_validation(model, X_reg, y_reg, param_grid, outer_splits=3, inner_splits=2)
+    actual = Validations.nested_cross_validation(model, X_reg, y_reg, param_grid, outer_splits=3, inner_splits=2)
     assert actual == pytest.approx(expected)
 
 
@@ -193,25 +193,25 @@ def test_nested_cross_validation_custom_splits():
 # --------------------------------------------------
 
 def test_k_fold_validation_returns_float():
-    actual = ModelValidator.k_fold_validation(LinearRegression(), X_reg, y_reg)
+    actual = Validations.k_fold_validation(LinearRegression(), X_reg, y_reg)
     assert isinstance(actual, (float, np.floating))
 
 
 def test_stratified_k_fold_validation_returns_float():
-    actual = ModelValidator.stratified_k_fold_validation(LogisticRegression(), X_class, y_class)
+    actual = Validations.stratified_k_fold_validation(LogisticRegression(), X_class, y_class)
     assert isinstance(actual, (float, np.floating))
 
 
 def test_leave_one_out_validation_returns_float():
-    actual = ModelValidator.leave_one_out_validation(LinearRegression(), X_reg, y_reg)
+    actual = Validations.leave_one_out_validation(LinearRegression(), X_reg, y_reg, scoring="neg_mean_absolute_error")
     assert isinstance(actual, (float, np.floating))
 
 
 def test_repeated_k_fold_validation_returns_float():
-    actual = ModelValidator.repeated_k_fold_validation(LinearRegression(), X_reg, y_reg)
+    actual = Validations.repeated_k_fold_validation(LinearRegression(), X_reg, y_reg)
     assert isinstance(actual, (float, np.floating))
 
 
 def test_nested_cross_validation_returns_float():
-    actual = ModelValidator.nested_cross_validation(Ridge(), X_reg, y_reg, {"alpha": [0.1, 1.0, 10.0]})
+    actual = Validations.nested_cross_validation(Ridge(), X_reg, y_reg, {"alpha": [0.1, 1.0, 10.0]})
     assert isinstance(actual, float)
