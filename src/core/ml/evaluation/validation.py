@@ -4,7 +4,7 @@ from sklearn import clone
 from sklearn.model_selection import GridSearchCV, KFold, LeaveOneOut, RepeatedKFold, StratifiedKFold, cross_val_score
 from sklearn.metrics import get_scorer
 
-class ModelValidator:
+class Validations:
     """
         desc: Class for validating machine learning models
     """ 
